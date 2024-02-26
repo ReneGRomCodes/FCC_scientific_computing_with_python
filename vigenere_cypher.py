@@ -8,6 +8,7 @@ custom_key = 'happycoding'
 
 
 def vigenere(message, key, direction=1):
+    """Vigenere encryption for text 'message' using 'key'. 'direction=1' encrypts, 'direction=-1' decrypts."""
     key_index = 0
     alphabet = 'abcdefghijklmnopqrstuvwxyz'
     final_message = ''
@@ -32,10 +33,12 @@ def vigenere(message, key, direction=1):
 
 
 def encrypt(message, key):
+    """Encrypts 'message' using 'key'."""
     return vigenere(message, key)
 
 
 def decrypt(message, key):
+    """Encrypts 'message' using 'key'."""
     return vigenere(message, key, -1)
 
 
