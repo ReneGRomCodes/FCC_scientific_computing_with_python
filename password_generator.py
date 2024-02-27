@@ -1,6 +1,6 @@
 # Learning Regular Expressions by building a password generator:
-# You'll learn how to import modules from the Python standard library and also how to use
-# Regular Expressions by building your own password generator program.
+# You'll learn how to import modules from the Python standard library and also how to use Regular Expressions by
+# building your own password generator program.
 
 
 import re
