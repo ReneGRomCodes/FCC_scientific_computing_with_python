@@ -10,6 +10,12 @@ C = []
 
 
 def move(n, source, auxiliary, target):
+    """Tower of Hanoi solver using recursion.
+        Args:
+            n (int): The number of disks to be moved.
+            source (list): The source stack of disks.
+            auxiliary (list): The auxiliary stack used for moving disks.
+            target (list): The target stack where disks will be moved."""
     if n <= 0:
         return
 

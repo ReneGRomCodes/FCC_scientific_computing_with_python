@@ -4,23 +4,30 @@
 
 
 def add_expense(expenses, amount, category):
+    """Adds an expense to the list of expenses. 'expenses' is list of expenses, 'amount' is amount of expense(float),
+    'category' is category of the expense (str)"""
     expenses.append({'amount': amount, 'category': category})
 
 
 def print_expenses(expenses):
+    """Prints all expenses (list 'expenses') in a formatted way."""
     for expense in expenses:
         print(f'Amount: {expense["amount"]}, Category: {expense["category"]}')
 
 
 def total_expenses(expenses):
+    """Calculates the total expenses from list 'expenses' and returns the sum of expenses as (float)."""
     return sum(map(lambda expense: expense['amount'], expenses))
 
 
 def filter_expenses_by_category(expenses, category):
+    """Filters expenses by a specified category and returns a filter object containing expenses with specified
+    category"""
     return filter(lambda expense: expense['category'] == category, expenses)
 
 
 def main():
+    """Main function to run the expense tracker program."""
     expenses = []
     while True:
         print('\nExpense Tracker')

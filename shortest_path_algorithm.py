@@ -14,7 +14,7 @@ my_graph = {
 
 
 def shortest_path(graph, start, target=''):
-    """Shortest path algorithm. 'graph' is a dictionary, 'start' and 'target' are keys."""
+    """Shortest path algorithm. 'graph' is a dictionary, 'start' and 'target' are keys. Returns distance and paths."""
     unvisited = list(graph)
     distances = {node: 0 if node == start else float('inf') for node in graph}
     paths = {node: [] for node in graph}
@@ -41,4 +41,5 @@ def shortest_path(graph, start, target=''):
     return distances, paths
 
 
+# Example usage:
 shortest_path(my_graph, 'A', 'F')
