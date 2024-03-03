@@ -6,6 +6,8 @@ def arithmetic_arranger(problems, show_answers=False):
     for problem in problems:
         if "/" in problem or "*" in problem:
             return "Error: Operator must be '+' or '-'."
+        elif " " not in problem[:5] or " " not in problem[-5:]:
+            return "Error: Numbers cannot be more than four digits."
 
     return problems
 
