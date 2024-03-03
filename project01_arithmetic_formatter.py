@@ -19,6 +19,24 @@ def arithmetic_arranger(problems, show_answers=False):
                 print(error_message)
             return error_message
 
+        elif problem.find(" + ") > 0:  # TODO prints error_message twice if case is triggered.
+            error_message = "Error: Numbers must only contain digits."
+            n = problem.find(" + ")
+            digits_only = problem[:n] + problem[n+3:]
+
+            if not digits_only.isdigit():
+                print(error_message)
+                return error_message
+
+        elif problem.find(" - ") > 0:  # TODO prints error_message twice if case is triggered.
+            error_message = "Error: Numbers must only contain digits."
+            n = problem.find(" - ")
+            digits_only = problem[:n] + problem[n+3:]
+
+            if not digits_only.isdigit():
+                print(error_message)
+                return error_message
+
     return problems
 
 print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
