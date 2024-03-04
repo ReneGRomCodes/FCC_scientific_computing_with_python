@@ -1,22 +1,16 @@
-def arithmetic_arranger(problems, show_answers=False):
+def validate_problems(problems):
 
     if len(problems) > 5:
         error_message = "Error: Too many problems."
-        if show_answers:
-            print(error_message)
         return error_message
 
     for problem in problems:
         if "/" in problem or "*" in problem:
             error_message = "Error: Operator must be '+' or '-'."
-            if show_answers:
-                print(error_message)
             return error_message
 
         elif " " not in problem[:5] or " " not in problem[-5:]:
             error_message = "Error: Numbers cannot be more than four digits."
-            if show_answers:
-                print(error_message)
             return error_message
 
         elif problem.find(" + ") > 0:
@@ -25,8 +19,6 @@ def arithmetic_arranger(problems, show_answers=False):
             digits_only = problem[:n] + problem[n+3:]
 
             if not digits_only.isdigit():
-                if show_answers:
-                    print(error_message)
                 return error_message
 
         elif problem.find(" - ") > 0:
@@ -35,9 +27,15 @@ def arithmetic_arranger(problems, show_answers=False):
             digits_only = problem[:n] + problem[n+3:]
 
             if not digits_only.isdigit():
-                if show_answers:
-                    print(error_message)
                 return error_message
+
+
+def arithmetic_arranger(problems, show_answers=False):
+
+    error_message = validate_problems(problems)
+    if error_message:
+        print(error_message)
+        return error_message
 
     return problems
 
