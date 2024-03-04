@@ -1,4 +1,6 @@
 def validate_problems(problems):
+    """Check 'problems' argument for specific conditions in 'arithmetic_arranger()' function according to given task and
+    returns 'error_message' if any condition is met."""
 
     if len(problems) > 5:
         error_message = "Error: Too many problems."
@@ -28,6 +30,36 @@ def validate_problems(problems):
 
             if not digits_only.isdigit():
                 return error_message
+
+
+def draw_format(problems):  # First sort-of-working draft of 'draw_format()' function.
+    for problem in problems:
+
+        index = 0
+        while True:
+            if problem[index] == " ":
+                break
+            else:
+                index += 1
+
+        reverse_index = -1
+        while True:
+            if problem[reverse_index] == " ":
+                break
+            else:
+                reverse_index += -1
+
+        if index >= reverse_index:  # TODO 'reverse_index' always negative? 'index' therefore always '> reverse_index'?
+            n_dash = index + 2      # TODO therefore n_dash is always 'index + 2'!!!
+        else:
+            n_dash = reverse_index + 2
+
+        first_line_space = n_dash - index
+        second_line_space = n_dash + reverse_index
+
+        print(" " * first_line_space + problem[:index])
+        print(" " * second_line_space + problem[reverse_index:])
+        print("-" * n_dash)
 
 
 def arithmetic_arranger(problems, show_answers=False):
