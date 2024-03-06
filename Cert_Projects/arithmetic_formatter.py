@@ -32,7 +32,16 @@ def validate_problems(problems):
                 return error_message
 
 
-def draw_format(problems):  # First sort-of-working draft of 'draw_format()' function.
+def draw_format(problems):
+    """Slice items in list 'problems' into operand #1, operand #2 and operator, and return them in formatted strings."""
+
+    n_problems = len(problems)
+    space_between_problems = "    "
+    first_line = ""
+    second_line = ""
+    third_line = ""
+    problems_counter = 1
+
     for problem in problems:
 
         index = 0
@@ -49,17 +58,31 @@ def draw_format(problems):  # First sort-of-working draft of 'draw_format()' fun
             else:
                 reverse_index += -1
 
-        if index >= reverse_index:  # TODO 'reverse_index' always negative? 'index' therefore always '> reverse_index'?
-            n_dash = index + 2      # TODO therefore n_dash is always 'index + 2'!!!
+        formatted_reverse_index = reverse_index * (-1)
+        if index >= formatted_reverse_index:
+            n_dash = index + 2
         else:
-            n_dash = reverse_index + 2
+            n_dash = formatted_reverse_index + 1
+
+        if "+" in problem:
+            operator = "+"
+        else:
+            operator = "-"
 
         first_line_space = n_dash - index
-        second_line_space = n_dash + reverse_index
+        second_line_space = n_dash + reverse_index - 1
+        if problems_counter == n_problems:
+            first_line += " " * first_line_space + problem[:index]
+            second_line += operator + " " * second_line_space + problem[reverse_index:]
+            third_line += "-" * n_dash
+        else:
+            first_line += " " * first_line_space + problem[:index] + space_between_problems
+            second_line += operator + " " * second_line_space + problem[reverse_index:] + space_between_problems
+            third_line += "-" * n_dash + space_between_problems
 
-        print(" " * first_line_space + problem[:index])
-        print(" " * second_line_space + problem[reverse_index:])
-        print("-" * n_dash)
+        problems_counter += 1
+
+    return first_line, second_line, third_line
 
 
 def arithmetic_arranger(problems, show_answers=False):
@@ -69,6 +92,10 @@ def arithmetic_arranger(problems, show_answers=False):
         print(error_message)
         return error_message
 
-    return problems
+    first, second, third = draw_format(problems)
+    print(first)
+    print(second)
+    print(third)
 
-print(f'\n{arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])}')
+
+arithmetic_arranger(["32 + 698", "3801 - 2", "45 + 43", "123 + 49"])
