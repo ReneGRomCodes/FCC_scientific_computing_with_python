@@ -3,9 +3,6 @@
 Welcome to my repository for the programs written during the lessons of the FreeCodeCamp "Scientific Computing with
 Python (Beta) Certificate" course!
 
-IMPORTANT NOTE: THIS REPOSITORY DOES NOT INCLUDE THE PROJECTS GIVEN AT THE END OF THE COURSE. ONLY THE PROGRAMS CREATED
-AS PART OF THE INDIVIDUAL LESSONS!
-
 ## Overview
 
 This repository contains all the programs written as part of the lessons in the FreeCodeCamp Scientific Computing with
@@ -14,7 +11,13 @@ Python course. Each program corresponds to a specific lesson or project within t
 ## Contents
 
 The repository is organized into files, each corresponding to a different section or topic covered in the course.
-Within each file, you'll find the Python code written for that particular lesson or project.
+Within each file, you'll find the Python code written for that particular lesson.
+
+## Contents of 'Cert_projects' folder
+
+The programs in this folder are solutions to tasks assigned by FreeCodeCamp as part of the certification process. Unlike
+the other programs in this course, which guide you step by step through the learning process, these projects were
+independently completed from start to finish.
 
 ## Getting Started
 
