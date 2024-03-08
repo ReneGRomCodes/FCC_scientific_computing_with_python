@@ -38,27 +38,34 @@ def convert_time_systems(time):
     # Check and convert from 12-hour to 24-hour system.
     if "m" in time.lower():
         if "p" in time.lower():
-            converted_hours = str(int(hours) + 12)
-            if converted_hours == "24":
-                converted_hours = "00"
+            if hours == "12":
+                converted_hours = "12"
+            else:
+                converted_hours = str(int(hours) + 12)
             converted_time = converted_hours + ":" + minutes
         else:
+            if hours == "12":
+                hours = "00"
             converted_time = hours + ":" + minutes
 
         return converted_time
 
     # Check and convert from 24-hour to 12-hour system.
     else:
-        if int(hours) >= 13:
-            converted_hours = int(hours) - 12
-            converted_time = str(converted_hours) + ":" + minutes + " PM"
+        if int(hours) >= 12:
+            if hours == "12":
+                converted_time = hours + ":" + minutes + " PM"
+            else:
+                converted_hours = int(hours) - 12
+                converted_time = str(converted_hours) + ":" + minutes + " PM"
         elif hours == "00":
-            hours = "12"
-            converted_time = hours + ":" + minutes + " PM"
+            converted_time = "12" + ":" + minutes + " AM"
         else:
             converted_time = hours + ":" + minutes + " AM"
 
         return converted_time
 
 
-#def add_time(start, duration, starting_day=""):
+def add_time(start, duration, starting_day=""):
+
+    weekdays = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
