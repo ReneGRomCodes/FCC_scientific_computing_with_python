@@ -58,7 +58,7 @@ def convert_time_systems(time):
             else:
                 converted_hours = int(hours) - 12
                 converted_time = str(converted_hours) + ":" + minutes + " PM"
-        elif hours == "00":
+        elif hours == "00" or hours == "0":
             converted_time = "12" + ":" + minutes + " AM"
         else:
             converted_time = hours + ":" + minutes + " AM"
@@ -76,8 +76,6 @@ def convert_hours_to_days(hours):
 
 
 def add_time(start, duration, starting_day=""):
-
-    weekdays = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
 
     # Convert argument 'start' to 24h system and assign hours and minutes to separate variables.
     start_time_24h = convert_time_systems(start)
@@ -97,7 +95,43 @@ def add_time(start, duration, starting_day=""):
             sum_minutes = "0" + sum_minutes
         sum_hours = str(int(sum_hours) + 1)
 
-    new_time_24h = sum_hours + ":" + sum_minutes
+    # Calculate number of days passed and time of day for final return value.
+    days_passed, hours_remain = convert_hours_to_days(sum_hours)
+    new_time_24h = hours_remain + ":" + sum_minutes
+    output_time = convert_time_systems(new_time_24h)
+
+    # Outputs weekday for final return value if optional argument is assigned in function call.
+    if starting_day:
+        weekdays = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
+        output_day = ""
+        day_count = int(days_passed)
+        day = starting_day.lower()
+        day_index = weekdays.index(day)
+        day_index_counter = day_index + day_count
+
+        if day_count == 0:
+            output_day = weekdays[day_index].title()
+        else:
+            if day_index_counter <= 6:
+                output_day = weekdays[day_index_counter].title()
+
+    # Reassign 'days_passed' variable for final return value.
+    if days_passed == "0":
+        pass
+    elif days_passed == "1":
+        days_passed = "(next day)"
+    else:
+        days_passed = f"({days_passed} days later)"
+
+
+
+    # TEST PRINT STATEMENTS!!!
+    print(output_time)
+    if starting_day:
+        print(output_day)
+    if days_passed != "0":
+        print(days_passed)
+    print("")
 
 
 # Test function calls
@@ -107,3 +141,4 @@ add_time('11:43 AM', '00:20')  # Returns: 12:03 PM
 add_time('10:10 PM', '3:30')  # Returns: 1:40 AM (next day)
 add_time('11:43 PM', '24:20', 'tueSday')  # Returns: 12:03 AM, Thursday (2 days later)
 add_time('6:30 PM', '205:12')  # Returns: 7:42 AM (9 days later)
+add_time('8:16 PM', '466:02', 'tuesday') # Returns: 6:18 AM, Monday (20 days later)
