@@ -66,6 +66,44 @@ def convert_time_systems(time):
         return converted_time
 
 
+def convert_hours_to_days(hours):
+    """Take string 'hours' and return 'days' and 'hours_remain'."""
+
+    days = int(hours) // 24
+    hours_remain = int(hours) % 24
+
+    return str(days), str(hours_remain)
+
+
 def add_time(start, duration, starting_day=""):
 
     weekdays = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
+
+    # Convert argument 'start' to 24h system and assign hours and minutes to separate variables.
+    start_time_24h = convert_time_systems(start)
+    start_hours_24h, start_minutes = separate_hours_minutes(start_time_24h)
+
+    # Assign hours and minutes from argument 'duration' to separate variables.
+    duration_hours, duration_minutes = separate_hours_minutes(duration)
+
+    # Add hours and minutes from 'start' and 'duration' arguments.
+    sum_hours = str(int(start_hours_24h) + int(duration_hours))
+    sum_minutes = str(int(start_minutes) + int(duration_minutes))
+    # Switch to next hour at 60 minutes.
+    if int(sum_minutes) >= 60:
+        sum_minutes = str(int(sum_minutes) - 60)
+        # if-clause to ensure two-digit format for 'sum_minutes'.
+        if len(sum_minutes) == 1:
+            sum_minutes = "0" + sum_minutes
+        sum_hours = str(int(sum_hours) + 1)
+
+    new_time_24h = sum_hours + ":" + sum_minutes
+
+
+# Test function calls
+add_time('3:00 PM', '3:10')  # Returns: 6:10 PM
+add_time('11:30 AM', '2:32', 'Monday')  # Returns: 2:02 PM, Monday
+add_time('11:43 AM', '00:20')  # Returns: 12:03 PM
+add_time('10:10 PM', '3:30')  # Returns: 1:40 AM (next day)
+add_time('11:43 PM', '24:20', 'tueSday')  # Returns: 12:03 AM, Thursday (2 days later)
+add_time('6:30 PM', '205:12')  # Returns: 7:42 AM (9 days later)
