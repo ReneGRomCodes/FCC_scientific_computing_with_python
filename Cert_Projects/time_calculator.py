@@ -76,6 +76,16 @@ def convert_hours_to_days(hours):
 
 
 def add_time(start, duration, starting_day=""):
+    """Add a duration of time to a starting time and return the resulting time, optionally including the day of the week
+    and possible days passed.
+        Args:
+            start (str): The starting time in 'hours:minutes AM/PM' format.
+            duration (str): The duration to add in 'hours:minutes' format.
+            starting_day (str, optional): The starting day of the week (case-insensitive)."""
+
+    # I can't believe anyone would bother with this case, but here we are.
+    if duration == "0:00":
+        return start
 
     # Convert argument 'start' to 24h system and assign hours and minutes to separate variables.
     start_time_24h = convert_time_systems(start)
@@ -100,19 +110,20 @@ def add_time(start, duration, starting_day=""):
     new_time_24h = hours_remain + ":" + sum_minutes
     output_time = convert_time_systems(new_time_24h)
 
-    # Outputs weekday for final return value if optional argument is assigned in function call.
+    # Finds weekday for final return value if optional argument is assigned in function call.
     if starting_day:
         weekdays = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
-        output_day = ""
         day_count = int(days_passed)
-        day = starting_day.lower()
-        day_index = weekdays.index(day)
-        day_index_counter = day_index + day_count
+        start_day_index = weekdays.index(starting_day.lower())
+        day_index_counter = start_day_index + day_count
 
         if day_count == 0:
-            output_day = weekdays[day_index].title()
+            output_day = weekdays[start_day_index].title()
         else:
             if day_index_counter <= 6:
+                output_day = weekdays[day_index_counter].title()
+            else:
+                day_index_counter = day_index_counter % 7
                 output_day = weekdays[day_index_counter].title()
 
     # Reassign 'days_passed' variable for final return value.
@@ -123,22 +134,29 @@ def add_time(start, duration, starting_day=""):
     else:
         days_passed = f"({days_passed} days later)"
 
-
-
-    # TEST PRINT STATEMENTS!!!
-    print(output_time)
+    # Assigns final value for variable 'output' for function return.
     if starting_day:
-        print(output_day)
-    if days_passed != "0":
-        print(days_passed)
-    print("")
+        if days_passed == "0":
+            output = f"{output_time}, {output_day}"
+        else:
+            output = f"{output_time}, {output_day} {days_passed}"
+    else:
+        if days_passed == "0":
+            output = f"{output_time}"
+        elif days_passed == "(next day)":
+            output = f"{output_time} {days_passed}"
+        else:
+            output = f"{output_time} {days_passed}"
+
+    return output
 
 
-# Test function calls
-add_time('3:00 PM', '3:10')  # Returns: 6:10 PM
-add_time('11:30 AM', '2:32', 'Monday')  # Returns: 2:02 PM, Monday
-add_time('11:43 AM', '00:20')  # Returns: 12:03 PM
-add_time('10:10 PM', '3:30')  # Returns: 1:40 AM (next day)
-add_time('11:43 PM', '24:20', 'tueSday')  # Returns: 12:03 AM, Thursday (2 days later)
-add_time('6:30 PM', '205:12')  # Returns: 7:42 AM (9 days later)
-add_time('8:16 PM', '466:02', 'tuesday') # Returns: 6:18 AM, Monday (20 days later)
+# Function calls to test functionality and outputs.
+print(add_time('3:00 PM', '3:10'))  # Returns: 6:10 PM)
+print(add_time('11:30 AM', '2:32', 'Monday'))  # Returns: 2:02 PM, Monday
+print(add_time('11:43 AM', '00:20'))  # Returns: 12:03 PM
+print(add_time('10:10 PM', '3:30'))  # Returns: 1:40 AM (next day)
+print(add_time('11:43 PM', '24:20', 'tueSday'))  # Returns: 12:03 AM, Thursday (2 days later)
+print(add_time('6:30 PM', '205:12'))  # Returns: 7:42 AM (9 days later)
+print(add_time('8:16 PM', '466:02', 'tuesday'))  # Returns: 6:18 AM, Monday (20 days later)
+print(add_time('11:59 PM', '24:05', 'Wednesday'))  # Returns: 12:04 AM, Friday (2 days later)
