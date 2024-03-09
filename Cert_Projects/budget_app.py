@@ -3,13 +3,13 @@ class Category:
     def __init__(self, name):
         self.name = name
         self.ledger = []
-        self.budget = 0.0
+        self.balance = 0
 
     def deposit(self, amount, description=""):
         self.ledger.append({"amount": amount,
                             "description": description,
                             })
-        self.budget += amount
+        self.balance += amount
 
     def withdraw(self, amount, description=""):
         pass
@@ -30,7 +30,8 @@ def create_spend_chart(categories):
 
 # Instance and method calls for testing
 test = Category("TEST")
-print(test.budget)
-test.deposit(50)
+print(test.balance)
+test.deposit(50, "test")
+test.deposit(25)
 print(test.ledger)
-print(test.budget)
+print(test.balance)
