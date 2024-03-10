@@ -19,16 +19,28 @@ class Category:
         self.balance += amount
 
     def withdraw(self, amount, description=""):
-        pass
+        check = self.check_funds(amount)
+        if check:
+            amount = amount * (-1)
+            self.ledger.append({"amount": amount,
+                                "description": description,
+                                })
+            self.balance += amount
+            return True
+        else:
+            return False
 
     def get_balance(self):
-        pass
+        return self.balance
 
     def transfer(self, amount, other_category):
         pass
 
     def check_funds(self, amount):
-        pass
+        if amount > self.balance:
+            return False
+        else:
+            return True
 
 
 def create_spend_chart(categories):
@@ -37,6 +49,8 @@ def create_spend_chart(categories):
 
 # Instance and method calls for testing
 test = Category("TEST")
-test.deposit(50, "test")
+test.deposit(50, "testdeposit")
 test.deposit(25)
+test.withdraw(10, "testwithdraw")
+test.withdraw(5)
 print(test)
