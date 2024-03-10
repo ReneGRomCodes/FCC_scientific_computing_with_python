@@ -5,6 +5,13 @@ class Category:
         self.ledger = []
         self.balance = 0
 
+    def __str__(self):
+        budget = self.name + "\n"
+        for position in self.ledger:
+            budget += position["description"] + " " + str(position["amount"]) + "\n"
+        budget += str(self.balance)
+        return budget
+
     def deposit(self, amount, description=""):
         self.ledger.append({"amount": amount,
                             "description": description,
@@ -30,8 +37,6 @@ def create_spend_chart(categories):
 
 # Instance and method calls for testing
 test = Category("TEST")
-print(test.balance)
 test.deposit(50, "test")
 test.deposit(25)
-print(test.ledger)
-print(test.balance)
+print(test)
