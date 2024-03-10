@@ -10,10 +10,22 @@ class Category:
     def __str__(self):
         """Return a formatted representation of the budget category, including ledger entries and the current
         balance."""
-        budget = self.name + "\n"
+        # Set 'self.name' centered in between "*"s for a 30-character long title line.
+        title_line_stars = (30 - len(self.name)) // 2 * "*"
+        title_line = title_line_stars + self.name + title_line_stars
+        if len(title_line) < 30:
+            title_line = "*" + title_line
+        budget = title_line + "\n"
+        # Construct the ledger section in block style format.
         for position in self.ledger:
-            budget += position["description"] + " " + str(position["amount"]) + "\n"
-        budget += str(self.balance)
+            # Restrict length of description to 23 characters in printout.
+            if len(position["description"]) > 23:
+                position["description"] = position["description"][:23]
+            formatted_amount = "{:.2f}".format(position["amount"])
+            length_space = (30 - (len(position["description"]) + len(formatted_amount))) * " "
+            budget += position["description"] + length_space + formatted_amount + "\n"
+        # Total budget.
+        budget += f"Total: {self.balance:.2f}"
         return budget
 
     def deposit(self, amount, description=""):
@@ -60,7 +72,7 @@ class Category:
             return False
 
     def check_funds(self, amount):
-        """Check if numeric value 'amount' exceeds 'self.balance'."""
+        """Check if numeric value 'amount' exceeds 'self.balance'. Return 'False' if it does and 'True' if not."""
         if amount > self.balance:
             return False
         else:
@@ -71,15 +83,18 @@ def create_spend_chart(categories):
     pass
 
 
-# Instance and method calls for testing
+# Instance and method calls for testing.
 food = Category("FOOD")
 clothing = Category("CLOTHING")
+entertainment = Category("ENTERTAINMENT")
 
 food.deposit(50, "food deposit")
 food.deposit(25)
 food.withdraw(10, "food withdraw")
+food.withdraw(15.89, "restaurant and more food for dessert")
 food.withdraw(5)
 food.transfer(10, clothing)
 
 print(food)
 print(clothing)
+print(entertainment)
