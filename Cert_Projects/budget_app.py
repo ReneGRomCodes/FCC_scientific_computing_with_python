@@ -18,7 +18,11 @@ class Category:
         budget = title_line + "\n"
         # Construct the ledger section in block style format.
         for position in self.ledger:
-            # Restrict length of description to 23 characters in printout.
+            # Restrict length of each line in ledger to 30 characters. Shorten description to do so if necessary.
+            if len(position["description"]) + len(str(position["amount"])) >= 30:
+                n = 30 - len(str(position["amount"])) - 1
+                position["description"] = position["description"][:n]
+            # Restrict length of description to 23 characters.
             if len(position["description"]) > 23:
                 position["description"] = position["description"][:23]
             formatted_amount = "{:.2f}".format(position["amount"])
@@ -88,10 +92,10 @@ food = Category("FOOD")
 clothing = Category("CLOTHING")
 entertainment = Category("ENTERTAINMENT")
 
-food.deposit(50, "food deposit")
+food.deposit(5000, "food deposit")
 food.deposit(25)
 food.withdraw(10, "food withdraw")
-food.withdraw(15.89, "restaurant and more food for dessert")
+food.withdraw(1500.89, "restaurant and more food for dessert")
 food.withdraw(5)
 food.transfer(10, clothing)
 
