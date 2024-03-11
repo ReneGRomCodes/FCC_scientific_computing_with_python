@@ -116,8 +116,46 @@ def get_expenses_percent(categories):
     return expenses_percent
 
 
+def get_line_percent(expenses, n):
+    """Take list 'expenses' and value 'n' to build and return 'line' for spending chart. 'expenses' is a specific list
+    created through 'get_expenses_percent()' function."""
+    # Assign empty starting value for 'line'.
+    line = ""
+
+    # Build first section of 'line' based on value 'n'.
+    if n == 100:
+        line += "100| "
+    elif n == 0:
+        line += "  0| "
+    else:
+        line += " " + str(n) + "| "
+
+    # Build second section of 'line' base on values extracted from list 'expenses'.
+    for category in expenses:
+        if category["percentage"] < n:
+            line += "   "
+        else:
+            line += "o  "
+
+    return line
+
+
 def create_spend_chart(categories):
-    pass
+    """Take list of instances 'categories', build a bar chart containing the name of each category and the percentage
+    (rounded down to the nearest 10) each category contributes to total expenses."""
+    # Assign starting values for 'chart', 'expenses_percent' and 'title_line'.
+    chart = ""
+    expenses_percent = get_expenses_percent(categories)
+    title_line = "Percentage spent by category"
+
+    # Build upper section of the bar chart including title, percentage, bars for percentages and a line dividing lower
+    # section for category names.
+    chart += title_line + "\n"
+    for i in range(100, -1, -10):
+        chart += get_line_percent(expenses_percent, i) + "\n"
+    chart += "    -" + "---" * len(categories)
+
+    return chart
 
 
 # Instance, method and function calls to test functionality and outputs.
@@ -150,6 +188,6 @@ print(clothing)
 print(entertainment)
 print(car)
 
-# List of instances and functions testing.
-list = [food, clothing, entertainment,car]
-print(get_expenses_percent(list))
+# List of instances and testing of main function.
+instances = [food, clothing, entertainment, car]
+print(create_spend_chart(instances))
