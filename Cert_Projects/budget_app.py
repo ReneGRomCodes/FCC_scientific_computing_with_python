@@ -83,22 +83,73 @@ class Category:
             return True
 
 
+def get_expenses_amount(category):
+    """Take instance 'category', add all expenses and return them as positive numeric value 'expenses_amount'."""
+    expenses_amount = 0
+    for position in category.ledger:
+        if position["amount"] < 0:
+            expenses_amount -= position["amount"]
+
+    return expenses_amount
+
+
+def get_expenses_percent(categories):
+    """Take a list of 'categories' and return a list of dictionaries containing the name of each category and the
+    percentage (rounded down to the nearest 10) each category contributes to total expenses."""
+    # Assign empty list 'expenses_percent' and variable 'exp_sum'.
+    expenses_percent = []
+    exp_sum = 0
+
+    # Add all expenses from instances in 'categories'.
+    for category in categories:
+        expenses = get_expenses_amount(category)
+        exp_sum += expenses
+
+    # Calculate rounded down percentages and add them as dictionary to list 'expenses_percent' together with the name
+    # of the category.
+    for category in categories:
+        exp_percentage_rounded = (((get_expenses_amount(category) / exp_sum) * 10) // 1) * 10
+        expenses_percent.append({"category": category.name,
+                                 "percentage": int(exp_percentage_rounded),
+                                 })
+
+    return expenses_percent
+
+
 def create_spend_chart(categories):
     pass
 
 
-# Instance and method calls for testing.
+# Instance, method and function calls to test functionality and outputs.
 food = Category("FOOD")
 clothing = Category("CLOTHING")
 entertainment = Category("ENTERTAINMENT")
+car = Category("CAR")
 
-food.deposit(5000, "food deposit")
-food.deposit(25)
-food.withdraw(10, "food withdraw")
-food.withdraw(1500.89, "restaurant and more food for dessert")
-food.withdraw(5)
-food.transfer(10, clothing)
+# Deposits.
+food.deposit(1234.56, "First paycheck")
+clothing.deposit(75, "Selling vintage jacket")
+entertainment.deposit(99.99, "Concert tickets")
+car.deposit(500, "Selling old stereo system")
+food.deposit(777.77, "Lottery win")
+# Withdrawals.
+entertainment.withdraw(35.75, "Movie night")
+food.withdraw(156.23, "Weekly groceries")
+car.withdraw(112.88, "Car wash")
+clothing.withdraw(62.50, "New jeans")
+food.withdraw(234.89, "Dinner party")
+# Transfers.
+food.transfer(97.42, clothing)
+clothing.transfer(48.67, entertainment)
+car.transfer(88.91, food)
+entertainment.transfer(22.34, car)
 
+# Print budgets.
 print(food)
 print(clothing)
 print(entertainment)
+print(car)
+
+# List of instances and functions testing.
+list = [food, clothing, entertainment,car]
+print(get_expenses_percent(list))
