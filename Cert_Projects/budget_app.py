@@ -118,7 +118,7 @@ def get_expenses_percent(categories):
 
 def get_line_percent(expenses, n):
     """Take list 'expenses' and value 'n' to build and return 'line' for spending chart. 'expenses' is a specific list
-    created through 'get_expenses_percent()' function."""
+    of dictionaries created through 'get_expenses_percent()' function."""
     # Assign empty starting value for 'line'.
     line = ""
 
@@ -140,6 +140,23 @@ def get_line_percent(expenses, n):
     return line
 
 
+def get_line_name(names, n):
+    """Take list 'names' and value 'n' to build and return 'line' for spending chart."""
+    # Create variable 'line' with multiple spaces to offset later additions to the right.
+    line = "     "
+
+    # Add character at index 'n' from each item in list 'names'. try-except clauses to avoid IndexError with shorter
+    # names.
+    for name in names:
+        try:
+            line += name[n] + "  "
+        except IndexError:
+            line += "   "
+
+    return line
+
+
+
 def create_spend_chart(categories):
     """Take list of instances 'categories', build a bar chart containing the name of each category and the percentage
     (rounded down to the nearest 10) each category contributes to total expenses."""
@@ -153,7 +170,19 @@ def create_spend_chart(categories):
     chart += title_line + "\n"
     for i in range(100, -1, -10):
         chart += get_line_percent(expenses_percent, i) + "\n"
-    chart += "    -" + "---" * len(categories)
+    chart += "    -" + "---" * len(categories) + "\n"
+
+    # Create list 'budget_names' to help build lower section of the chart.
+    budget_names = []
+    for category in categories:
+        budget_names.append(category.name)
+    # Establish length of longest item in 'budget_names' for use in loops. '-1' is to account for offset and help avoid
+    # empty last line.
+    name_n = len(max(budget_names, key=len)) - 1
+    # Build lower section of the chart, vertically aligning the names of each category.
+    for i in range(0, name_n, 1):
+        chart += get_line_name(budget_names, i) + "\n"
+    chart += get_line_name(budget_names, name_n)
 
     return chart
 
