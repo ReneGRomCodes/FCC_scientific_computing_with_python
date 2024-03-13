@@ -49,9 +49,34 @@ class Square(Rectangle):
         self.width = new_side
         self.height = new_side
 
+    def set_width(self, new_width):
+        super().set_width(new_width)
+        self.side = new_width
+        self.width = new_width
+        self.height = new_width
+
+    def set_height(self, new_height):
+        super().set_height(new_height)
+        self.side = new_height
+        self.width = new_height
+        self.height = new_height
+
 
 # Instance, method and function calls to test functionality and outputs.
 rect = Rectangle(10, 5)
-sqr = Square(7)
+print(rect.get_area())
+rect.set_height(3)
+print(rect.get_perimeter())
 print(rect)
-print(sqr)
+print(rect.get_picture())
+
+sq = Square(9)
+print(sq.get_area())
+sq.set_side(4)
+print(sq.get_diagonal())
+print(sq)
+print(sq.get_picture())
+
+rect.set_height(8)
+rect.set_width(16)
+print(rect.get_amount_inside(sq))
