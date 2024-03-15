@@ -26,13 +26,43 @@ class Hat:
 
 
 def experiment(hat, expected_balls, num_balls_drawn, num_experiments):
-    pass
+    """Simulate drawing balls from a hat and calculate the probability of drawing a specific combination of balls.
+        Args:
+            hat (Hat): An instance of the Hat class representing the hat containing balls.
+            expected_balls (dict): A dictionary representing the expected counts of each color of ball to be drawn.
+            num_balls_drawn (int): The number of balls to be drawn from the hat in each experiment.
+            num_experiments (int): The number of experiments to be conducted.
+        Returns the probability of drawing the expected combination of balls as a float."""
+    # Initialize counters for experiments where the expected combination is drawn.
+    exp_counter = 0
+    true_counter = 0
+    # Iterate over the number of experiments.
+    while exp_counter < num_experiments:
+        hat_copy = copy.deepcopy(hat)
+        drawn_balls = hat_copy.draw(num_balls_drawn)
+
+        # Check if the drawn balls contain at least the expected counts.
+        contains_enough = True
+        for color, count in expected_balls.items():
+            if drawn_balls.count(color) < count:
+                contains_enough = False
+                break  # No need to continue checking if one color is insufficient.
+        # If the drawn balls contain at least the expected counts, increment the true_counter.
+        if contains_enough:
+            true_counter += 1
+
+        exp_counter += 1
+
+    # Calculate and return the probability of drawing the expected combination of balls.
+    return true_counter / num_experiments
 
 
-# Instance, method and function calls to test functionality and outputs.
-test_hat = Hat(red=5, orange=4, black=1, blue=0, pink=2, striped=9)
+# Instance and function calls to test functionality and outputs.
+test_hat = Hat(black=6, red=4, green=3)
 
-print(test_hat.contents)
-print(test_hat.draw(50))
-print(test_hat.draw(5))
-print(test_hat.contents)
+probability = experiment(hat=test_hat,
+                  expected_balls={"red": 2, "green": 1},
+                  num_balls_drawn=5,
+                  num_experiments=2000)
+
+print(probability)
