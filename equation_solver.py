@@ -6,10 +6,12 @@ import re
 
 
 class Equation(ABC):
+    """Base class for mathematical equations."""
     degree: int
     type: str
 
     def __init__(self, *args):
+        """Initialize the equation with coefficients."""
         if (self.degree + 1) != len(args):
             raise TypeError(
                 f"'Equation' object takes {self.degree + 1} positional arguments but {len(args)} were given"
@@ -21,6 +23,7 @@ class Equation(ABC):
         self.coefficients = {(len(args) - n - 1): arg for n, arg in enumerate(args)}
 
     def __init_subclass__(cls):
+        """Ensure subclasses define 'degree' and 'type' attributes."""
         if not hasattr(cls, "degree"):
             raise AttributeError(
                 f"Cannot create '{cls.__name__}' class: missing required attribute 'degree'"
@@ -31,6 +34,7 @@ class Equation(ABC):
             )
 
     def __str__(self):
+        """Return the equation as a string."""
         terms = []
         for n, coefficient in self.coefficients.items():
             if not coefficient:
@@ -46,10 +50,12 @@ class Equation(ABC):
 
     @abstractmethod
     def solve(self):
+        """Solve the equation."""
         pass
 
     @abstractmethod
     def analyze(self):
+        """Analyze the equation."""
         pass
 
 
@@ -68,15 +74,18 @@ class LinearEquation(Equation):
 
 
 class QuadraticEquation(Equation):
+    """Represents a quadratic equation of the form ax^2 + bx + c = 0."""
     degree = 2
     type = 'Quadratic Equation'
 
     def __init__(self, *args):
+        """Initialize the quadratic equation and compute delta."""
         super().__init__(*args)
         a, b, c = self.coefficients.values()
         self.delta = b ** 2 - 4 * a * c
 
     def solve(self):
+        """Find and return the solutions to the quadratic equation."""
         if self.delta < 0:
             return []
         a, b, _ = self.coefficients.values()
@@ -88,6 +97,7 @@ class QuadraticEquation(Equation):
         return [x1, x2]
 
     def analyze(self):
+        """Analyze the vertex and concavity of the quadratic equation."""
         a, b, c = self.coefficients.values()
         x = -b / (2 * a)
         y = a * x ** 2 + b * x + c
@@ -101,6 +111,7 @@ class QuadraticEquation(Equation):
 
 
 def solver(equation):
+    """Solve the equation and return the results and details as a formatted string."""
     if not isinstance(equation, Equation):
         raise TypeError("Argument must be an Equation object")
 
