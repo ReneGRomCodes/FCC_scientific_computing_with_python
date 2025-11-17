@@ -1,7 +1,7 @@
-# FreeCodeCamp Scientific Computing with Python (Beta) Certificate
+# FreeCodeCamp Scientific Computing with Python Certificate
 
 Welcome to my repository for the programs written during the lessons of the FreeCodeCamp "Scientific Computing with
-Python (Beta) Certificate" course!
+Python Certificate" course!
 
 ## Overview
 
@@ -26,7 +26,7 @@ project. You can view the code directly in your browser or download it to your l
 
 ## Course Information
 
-For more information about the FreeCodeCamp "Scientific Computing with Python (Beta) Certificate" course, including
+For more information about the FreeCodeCamp "Scientific Computing with Python Certificate" course, including
 syllabus, requirements, and how to enroll, visit the
 [FreeCodeCamp website](https://www.freecodecamp.org/learn/scientific-computing-with-python/).
 
